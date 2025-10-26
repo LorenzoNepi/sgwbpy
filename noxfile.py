@@ -24,18 +24,11 @@ def cleanup(_session: nox.Session) -> None:
     """
     # Remove all the __pycache__ folders.
     for folder_path in (_ROOT_DIR, _SRC_DIR, _TESTS_DIR):
-        _path1 = folder_path / "__pycache__"
-        _path2 = folder_path / ".mypy_cache"
-        _path3 = folder_path / ".nox"
-        _path4 = folder_path / ".ruff_cache"
-        if _path1.exists():
-            shutil.rmtree(_path1)
-        if _path2.exists():
-            shutil.rmtree(_path2)
-        if _path3.exists():
-            shutil.rmtree(_path3)
-        if _path4.exists():
-            shutil.rmtree(_path4)
+        for subfolder in ("__pycache__", ".mypy_cache", ".nox", ".ruff_cache", ".pytest_cache"):
+            path = folder_path / subfolder
+            if path.exists():
+                shutil.rmtree(path)
+
     # Cleanup the docs.
     _path = _DOCS_DIR / "_build"
     if _path.exists():
